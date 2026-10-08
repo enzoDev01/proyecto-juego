@@ -1,0 +1,10 @@
+# Ignorar la carpeta de archivos importados de Godot 4
+.godot/
+
+# Ignorar archivos de exportación (opcional pero recomendado)
+*.a
+*.apk
+*.app
+*.ipa
+*.exe
+*.pck
