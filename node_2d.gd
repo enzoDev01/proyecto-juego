@@ -10,7 +10,8 @@ var drag_start_window_pos = Vector2()
 @onready var particulas = $CPUParticles2D
 @onready var bocadillo = $Bocadillo
 
-enum State { IDLE, WALK, SLEEP, ANGRY }
+enum State { IDLE, WALK, SLEEP, ANGRY, ADWARE }
+var adware_scene = preload("res://AdwareWindow.tscn")
 var current_state = State.IDLE
 var direction = 1 
 
@@ -93,8 +94,10 @@ func _on_action_timer_timeout():
 	if current_state == State.SLEEP or current_state == State.ANGRY:
 		return
 		
+	var opciones = [State.IDLE, State.WALK, State.ADWARE]
+		
 	# Alternar aleatoriamente solo entre IDLE (0) y WALK (1)
-	var nuevo_estado = randi() % 2
+	var nuevo_estado = opciones.pick_random()
 	cambiar_estado(nuevo_estado)
 
 func _on_sleep_timer_timeout():
@@ -117,7 +120,12 @@ func cambiar_estado(nuevo_estado):
 		bocadillo.text = "Zzz..."
 	elif current_state == State.ANGRY:
 		sprite.play("angry")
-		bocadillo.text = "¡No me toques!"
+		bocadillo.text = "-.-"
+	elif current_state == State.ADWARE:
+		sprite.play("idle") # animación de "risa malvada" ?
+		bocadillo.text = "¡Ups! Se me escapó un virus..."
+		lanzar_adware()
+		
 
 func pedir_consejo():
 	var error = http_request.request("https://api.adviceslip.com/advice")
@@ -135,3 +143,12 @@ func _on_request_completed(result, response_code, headers, body):
 			# Solo borramos el texto si no ha cambiado de estado mientras esperaba
 			if current_state != State.SLEEP and current_state != State.ANGRY:
 				bocadillo.text = ""
+				
+func lanzar_adware():
+	if adware_scene:
+		var num_ventanas = randi_range(1,3)
+		for i in range(num_ventanas):
+			var ventana = adware_scene.instantiate()
+			add_child(ventana)
+			ventana.show() # Hace visible la ventana en el SO
+			

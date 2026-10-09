@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cbqn3c5qchgrb"]
+
+[node name="AdwareWindow" type="Window" unique_id=670008831]
+oversampling_override = 1.0
+title = "¡Eres el visitante 1.000.000!"
+size = Vector2i(300, 150)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=105308132]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="." unique_id=2106751751]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "¡Haga clic aquí para reclamar su premio!"
